@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - TaskFlow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="topbar">
+            <h1>📋 TaskFlow</h1><button id="logoutBtn">Logout</button>
+        </div>
+        <form id="taskForm">
+            <input type="text" id="title" placeholder="New task..." required />
+            <select id="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

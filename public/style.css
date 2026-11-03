@@ -1,0 +1,98 @@
+  * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+  }
+
+  body {
+      background: #a3b8e9;
+      color: #e2e8f0;
+      margin: 0;
+  }
+
+  .card {
+      max-width: 380px;
+      margin: 80px auto;
+      background: #486ca5;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+  }
+
+  .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #3b5d94;
+      padding: 25px;
+      border-radius: 10px;
+  }
+
+  .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+  }
+
+  input,
+  select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: none;
+  }
+
+  form#taskForm {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+  }
+
+  form#taskForm input {
+      flex: 2;
+      width: auto;
+      margin: 0;
+  }
+
+  form#taskForm select {
+      flex: 1;
+      width: auto;
+      margin: 0;
+  }
+
+  button {
+      padding: 10px 16px;
+      background: #a9bdc6;
+      color: #38425a;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+  }
+
+  #taskList {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+  }
+
+  #taskList li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #8c9fc9;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+  }
+
+  #taskList li.done span {
+      text-decoration: line-through;
+      color: #64748b;
+  }
+
+  .delete {
+      background: #ef4444;
+      color: white;
+      margin-left: 6px;
+  }
