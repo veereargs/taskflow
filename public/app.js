@@ -1,5 +1,14 @@
 const API = '/api';
 
+    async function readApiResponse(res) {
+      if (!(res.headers.get('content-type') || '').includes('application/json')) {
+        await res.text();
+        throw new Error(`The server returned an unexpected response (${res.status}). Check the deployment configuration.`);
+      }
+
+      return res.json();
+    }
+
     function getToken() { return localStorage.getItem('token'); }
     function authHeaders() { return { 'Content-Type': 'application/json', Authorization: `Bearer ${getToken()}` }; }
 
@@ -13,12 +22,17 @@ const API = '/api';
           email: document.getElementById('email').value,
           password: document.getElementById('password').value,
         };
-        const res = await fetch(`${API}/auth/register`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
-        });
-        const result = await res.json();
-        document.getElementById('msg').textContent = result.message || result.error;
-        if (result.success) window.location.href = 'login.html';
+        const msg = document.getElementById('msg');
+        try {
+          const res = await fetch(`${API}/auth/register`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+          });
+          const result = await readApiResponse(res);
+          msg.textContent = result.message || result.error;
+          if (result.success) window.location.href = 'login.html';
+        } catch (error) {
+          msg.textContent = error.message;
+        }
       });
     }
 
@@ -31,13 +45,18 @@ const API = '/api';
           email: document.getElementById('email').value,
           password: document.getElementById('password').value,
         };
-        const res = await fetch(`${API}/auth/login`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
-        });
-        const result = await res.json();
-        if (!result.success) { document.getElementById('msg').textContent = result.error; return; }
-        localStorage.setItem('token', result.token); // store JWT for future requests
-        window.location.href = 'dashboard.html';
+        const msg = document.getElementById('msg');
+        try {
+          const res = await fetch(`${API}/auth/login`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+          });
+          const result = await readApiResponse(res);
+          if (!res.ok || !result.success) { msg.textContent = result.error || 'Login failed'; return; }
+          localStorage.setItem('token', result.token); // store JWT for future requests
+          window.location.href = 'dashboard.html';
+        } catch (error) {
+          msg.textContent = error.message;
+        }
       });
     }
 

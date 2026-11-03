@@ -1,13 +1,23 @@
 const mongoose = require('mongoose');
 
-async function connectDB(){
-    try{
-        await mongoose.connect(process.env.DB_URL);
-        console.log('MongoDB connected successfully!');
-    }catch (err) {
-        console.error('MongoDB connection failed:', err.message);
-        process.exit(1);
-}
+let connectionPromise;
+
+async function connectDB() {
+    if (mongoose.connection.readyState === 1) {
+        return mongoose;
+    }
+
+    if (!process.env.DB_URL) {
+        throw new Error('DB_URL environment variable is required');
+    }
+
+    if (!connectionPromise) {
+        connectionPromise = mongoose.connect(process.env.DB_URL).finally(() => {
+            connectionPromise = undefined;
+        });
+    }
+
+    return connectionPromise;
 }
 
 module.exports = connectDB;
